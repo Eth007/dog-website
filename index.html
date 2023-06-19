@@ -39,29 +39,29 @@
     document.addEventListener("DOMContentLoaded", function() {
       var gallery = document.getElementById("gallery");
 
-      // Make 10 AJAX requests to fetch random dog images
-      for (var i = 0; i < 10; i++) {
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "https://dog.ceo/api/breeds/image/random");
-        xhr.onreadystatechange = function() {
-          if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-            var response = JSON.parse(xhr.responseText);
-            var image = response.message;
+      // Make AJAX request to fetch multiple random dog images
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "https://dog.ceo/api/breeds/image/random/3");
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+          var response = JSON.parse(xhr.responseText);
+          var images = response.message;
 
-            // Create gallery item for the image
+          // Loop through the images and create gallery items
+          for (var i = 0; i < images.length; i++) {
             var galleryItem = document.createElement("div");
             galleryItem.className = "gallery-item";
 
             var img = document.createElement("img");
-            img.src = image;
-            img.alt = "Dog";
+            img.src = images[i];
+            img.alt = "Dog " + (i + 1);
 
             galleryItem.appendChild(img);
             gallery.appendChild(galleryItem);
           }
-        };
-        xhr.send();
-      }
+        }
+      };
+      xhr.send();
     });
   </script>
 </head>
